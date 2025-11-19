@@ -15,9 +15,20 @@ public:
 	// Sets default values for this actor's properties
 	APooledObject();
 
+	void SetActive(bool isActive);
+	void SetLifeSpan(float, LifeTime);
+	void SetPoolIndex(int Index);
+
+	bool IsActive();
+	int GetPoolIndex();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	bool Active;
+	float LifeSpan = 0.0f;
+	int PoolIndex;
 
 public:	
 	// Called every frame
