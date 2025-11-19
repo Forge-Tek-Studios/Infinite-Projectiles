@@ -54,18 +54,29 @@ APooledObject* UProjectilePooler::SpawnPooledObject()
 			return PooledObj;
 		}
 	}
+
+	if (SpawnPooledIndices.Num() > 0)
+	{
+		int PooledObjectIndex = SpawnedPoolIndices[0];
+		SpawnedPoolIndices.RemoveAt(PooledObjectIndex);
+		APooledObject* PooledObj = ObjectPool[PooledObjectIndex];
+		if (PooledObj != nullptr)
+		{
+			PooledObj->TeleportTo(FVector(0, 0, 0), FRotator(0, 0, 0));
+			PooledObj->SetLifeSpan(PooledObjectLifeSpan);
+			PooledObj->SetActive(true);
+			SpawnedPoolIndices.Add(PooledObj->GetPoolIndex());
+
+			return PooledObj;
+		}
+	}
+
 	return nullptr;
 }
 
 void UProjectilePooler::OnPooledObjectDespawn(APooledObject* PoolActor)
 {
-	int Index = ObjectPool.IndexOfByKey(PoolActor);
-	if (Index != INDEX_NONE)
-	{
-		SpawnedPoolIndices.Remove(Index);
-		PoolActor->SetActorHiddenInGame(true);
-		PoolActor->SetActorEnableCollision(false);
-	}
+	SpawnPooledIndices.Remove(PoolActor->GetPoolIndex());
 }
 
 
