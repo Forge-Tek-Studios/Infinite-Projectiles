@@ -8,10 +8,44 @@ APooledObject::APooledObject()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
-// Called when the game starts or when spawned
+
+
+
+void APooledObject::SetActive(bool isActive)
+{
+	Active = isActive;
+	SetActorHiddenInGame(!isActive);
+	GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+}
+
+void APooledObject::SetLifeSpan(float LifeTime)
+{
+	LifeSpan = LifeTime;
+}
+
+void APooledObject::SetPoolIndex(int Index)
+{
+	PoolIndex = Index;
+}
+
+void APooledObject::Deactivate()
+{
+}
+void APooledObject::IsActive()
+{
+	return Active;
+}
+
+int APooledObject::GetPoolIndex()
+{
+	return PoolIndex;
+}
+
+
+
+//DEFAULT FUNCTIONS
 void APooledObject::BeginPlay()
 {
 	Super::BeginPlay();

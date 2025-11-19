@@ -17,9 +17,16 @@ public:
 	// Sets default values for this actor's properties
 	APooledObject();
 
+	FOnPooledObjectDespawn OnPooledObjectDespawn;
+	
+	UFUNCTION(BlueprintCallable, Category = "Pooled Object")
+		void Deactivate();
+
+	
 	void SetActive(bool isActive);
 	void SetLifeSpan(float, LifeTime);
 	void SetPoolIndex(int Index);
+
 
 	bool IsActive();
 	int GetPoolIndex();
