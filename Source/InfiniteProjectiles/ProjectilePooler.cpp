@@ -42,19 +42,16 @@ void UProjectilePooler::BeginPlay()
 
 APooledObject* UProjectilePooler::SpawnPooledObject()
 {
-	for (int i = 0; i < ObjectPool.Num(); i++)
+	for (APooledObject* PooledObj : ObjectPool)
 	{
-		if (!SpawnedPoolIndices.Contains(i))
+		if (PooledObj != nullptr && ! PooledObj->IsActive())
 		{
-			APooledObject* PooledObj = ObjectPool[i];
-			if (PooledObj)
-			{
-				PooledObj->SetLifeSpan(PooledObjectLifeSpan);
-				PooledObj->SetActorHiddenInGame(false);
-				PooledObj->SetActorEnableCollision(true);
-				SpawnedPoolIndices.Add(i);
-				return PooledObj;
-			}
+			PooledObj->TeleportTo(FVector(0,0,0), FRotator(0,0,0));
+			PooledObj->SetLifeSpan(PooledObjectLifeSpan);
+			PooledObj->SetActive(true);
+			SpawnedPoolIndices.Add(PooledObj->GetPoolIndex());
+
+			return PooledObj;
 		}
 	}
 	return nullptr;
