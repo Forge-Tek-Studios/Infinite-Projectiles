@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "PooledObject.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPooledObjectDespawn, APooledObject*, PoolActor);
+
 UCLASS()
 class INFINITEPROJECTILES_API APooledObject : public AActor
 {
@@ -29,6 +31,8 @@ protected:
 	bool Active;
 	float LifeSpan = 0.0f;
 	int PoolIndex;
+
+	FTimerHandle LifeSpanTimer;
 
 public:	
 	// Called every frame
