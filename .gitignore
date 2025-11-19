@@ -1,0 +1,70 @@
+# Compiled source files
+*.dll
+*.exe
+*.so
+*.dylib
+*.class
+
+# Binaries & Intermediate folders (Generated files)
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+
+# Ignore user-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Cache files
+*.pdb
+*.idb
+*.opensdf
+*.sdf
+*.VC.db
+
+# macOS specific
+.DS_Store
+
+# Xcode project files
+*.xcworkspace
+*.xcuserdata
+
+# Visual Studio Code
+.vscode/
+
+# Unreal-specific ignore
+.vs/
+*.VC.db
+*.VC.opendb
+
+# Ignore local config files (optional)
+# Uncomment if you want to ignore user-specific config files
+# Config/DefaultEditorPerProjectUserSettings.ini
+# Config/DefaultEditorUserSettings.ini
+
+# Auto-generated plugin files (optional)
+# You might want to include Source/ and Config/ if you're developing a plugin
+# and exclude everything else.
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+Plugins/*/Saved/
+
+# Optional: Ignore crash reports
+*.dmp
+
+# Optional: Ignore logs
+*.log
+
+# Optional: Ignore compiled Blueprint binaries
+*.uasset
+*.umap
+
+# If you're working with source control-friendly assets, keep Content/
+# But ignore auto-generated cooked data, if any.
+# Saved/Cooked/
+
+# Optional: Ignore Rider IDE project files
+.idea/
