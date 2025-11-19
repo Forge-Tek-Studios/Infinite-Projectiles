@@ -24,7 +24,7 @@ public:
 
 	
 	void SetActive(bool isActive);
-	void SetLifeSpan(float, LifeTime);
+	void SetLifeSpan(float LifeTime);
 	void SetPoolIndex(int Index);
 
 

@@ -17,7 +17,11 @@ void APooledObject::SetActive(bool isActive)
 {
 	Active = isActive;
 	SetActorHiddenInGame(!isActive);
-	GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+	
+	if (isActive)
+	{
+		GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+	}
 }
 
 void APooledObject::SetLifeSpan(float LifeTime)
@@ -36,7 +40,7 @@ void APooledObject::Deactivate()
 	GetWorldTimerManager().ClearAllTimersForObject(this);
 	OnPooledObjectDespawn.Broadcast(this);
 }
-void APooledObject::IsActive()
+bool APooledObject::IsActive()
 {
 	return Active;
 }

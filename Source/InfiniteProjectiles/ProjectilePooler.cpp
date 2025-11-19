@@ -55,10 +55,10 @@ APooledObject* UProjectilePooler::SpawnPooledObject()
 		}
 	}
 
-	if (SpawnPooledIndices.Num() > 0)
+	if (SpawnedPoolIndices.Num() > 0)
 	{
 		int PooledObjectIndex = SpawnedPoolIndices[0];
-		SpawnedPoolIndices.RemoveAt(PooledObjectIndex);
+		SpawnedPoolIndices.RemoveAt(0);
 		APooledObject* PooledObj = ObjectPool[PooledObjectIndex];
 		if (PooledObj != nullptr)
 		{
@@ -76,7 +76,7 @@ APooledObject* UProjectilePooler::SpawnPooledObject()
 
 void UProjectilePooler::OnPooledObjectDespawn(APooledObject* PoolActor)
 {
-	SpawnPooledIndices.Remove(PoolActor->GetPoolIndex());
+	SpawnedPoolIndices.Remove(PoolActor->GetPoolIndex());
 }
 
 
