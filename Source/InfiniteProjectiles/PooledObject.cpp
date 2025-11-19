@@ -32,6 +32,9 @@ void APooledObject::SetPoolIndex(int Index)
 
 void APooledObject::Deactivate()
 {
+	SetActive(false);
+	GetWorldTimerManager().ClearAllTimersForObject(this);
+	OnPooledObjectDespawn.Broadcast(this);
 }
 void APooledObject::IsActive()
 {
