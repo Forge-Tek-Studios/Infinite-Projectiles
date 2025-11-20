@@ -83,4 +83,3 @@ void UTP_WeaponComponent::AttachWeapon(AInfiniteProjectilesCharacter* TargetChar
 		Character->OnUseItem.AddDynamic(this, &UTP_WeaponComponent::Fire);
 	}
 }
-
