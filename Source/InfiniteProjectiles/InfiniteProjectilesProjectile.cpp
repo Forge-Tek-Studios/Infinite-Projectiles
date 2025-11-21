@@ -28,7 +28,6 @@ AInfiniteProjectilesProjectile::AInfiniteProjectilesProjectile()
 	ProjectileMovement->bShouldBounce = true;
 
 	// Die after 3 seconds by default
-	InitialLifeSpan = 3.0f;
 }
 
 void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -37,7 +36,7 @@ void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
-
-		Destroy();
 	}
+
+	Deactivate();
 }

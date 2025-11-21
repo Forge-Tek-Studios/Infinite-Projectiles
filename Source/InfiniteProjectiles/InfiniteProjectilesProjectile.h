@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "PooledObject.h"
 #include "InfiniteProjectilesProjectile.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
 
-UCLASS(config=Game)
-class AInfiniteProjectilesProjectile : public AActor
+UCLASS(config=Game, Blueprintable, BlueprintType)
+class AInfiniteProjectilesProjectile : public APooledObject
 {
 	GENERATED_BODY()
 

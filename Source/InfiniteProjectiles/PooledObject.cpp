@@ -18,7 +18,7 @@ void APooledObject::SetActive(bool isActive)
 	Active = isActive;
 	SetActorHiddenInGame(!isActive);
 	
-	if (isActive)
+	if (isActive && LifeSpan > 0.0f)
 	{
 		GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
 	}
