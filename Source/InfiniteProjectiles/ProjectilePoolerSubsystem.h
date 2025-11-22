@@ -21,7 +21,7 @@ public:
 	virtual void Deinitialize() override;
 	// End USubsystem
 
-	UFUNCTION(BlueprintCallable, Category = "Pooling")
+	UFUNCTION(BlueprintCallable, Category = "Pooling", meta = (AutoCreateRefTerm = "InitialVelocity"))
 	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity);
 
 	// UPROPERTY(Config, EditAnywhere, Category = "Pooling")
