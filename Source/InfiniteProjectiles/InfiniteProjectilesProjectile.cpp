@@ -59,9 +59,20 @@ void AInfiniteProjectilesProjectile::OnPoolEnd()
 {
 	Super::OnPoolEnd();
 	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL END: %s"), *GetName());
+
+	// Stop any physics simulation on the collision component
+	CollisionComp->SetSimulatePhysics(false);
+	// Disable all collision
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	ProjectileMovement->Deactivate();
+
+	// Stop movement and reset velocity
+	ProjectileMovement->StopMovementImmediately();
 	ProjectileMovement->Velocity = FVector::ZeroVector;
+	// Deactivate the component so it doesn't tick
+	ProjectileMovement->Deactivate();
+
+	// Move the actor far away and out of sight
+	SetActorLocation(FVector(0.f, 0.f, -10000.f));
 }
 
 void AInfiniteProjectilesProjectile::Destroyed()
