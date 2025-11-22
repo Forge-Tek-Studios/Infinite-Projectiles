@@ -23,13 +23,16 @@ public:
 		void Deactivate();
 
 	
-	void SetActive(bool isActive);
+	void SetActive(bool isActive, FVector InitialVelocity = FVector::ZeroVector);
 	void SetLifeSpan(float LifeTime);
 	void SetPoolIndex(int Index);
 
 
 	bool IsActive();
 	int GetPoolIndex();
+
+	virtual void OnPoolBegin(FVector InitialVelocity);
+	virtual void OnPoolEnd();
 
 protected:
 	// Called when the game starts or when spawned

@@ -11,16 +11,32 @@ APooledObject::APooledObject()
 }
 
 
+void APooledObject::OnPoolBegin(FVector InitialVelocity)
+{
+	// Base implementation, can be overridden by subclasses
+}
 
+void APooledObject::OnPoolEnd()
+{
+	// Base implementation, can be overridden by subclasses
+}
 
-void APooledObject::SetActive(bool isActive)
+void APooledObject::SetActive(bool isActive, FVector InitialVelocity)
 {
 	Active = isActive;
 	SetActorHiddenInGame(!isActive);
 	
-	if (isActive && LifeSpan > 0.0f)
+	if (isActive)
 	{
-		GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+		OnPoolBegin(InitialVelocity); // Call OnPoolBegin when activated
+		if (LifeSpan > 0.0f)
+		{
+			GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+		}
+	}
+	else
+	{
+		OnPoolEnd(); // Call OnPoolEnd when deactivated
 	}
 }
 
@@ -36,7 +52,7 @@ void APooledObject::SetPoolIndex(int Index)
 
 void APooledObject::Deactivate()
 {
-	SetActive(false);
+	SetActive(false, FVector::ZeroVector);
 	GetWorldTimerManager().ClearAllTimersForObject(this);
 	OnPooledObjectDespawn.Broadcast(this);
 }

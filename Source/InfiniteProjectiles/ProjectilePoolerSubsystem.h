@@ -22,14 +22,17 @@ public:
 	// End USubsystem
 
 	UFUNCTION(BlueprintCallable, Category = "Pooling")
-	APooledObject* SpawnPooledObject();
+	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity);
 
 	// UPROPERTY(Config, EditAnywhere, Category = "Pooling")
 	UFUNCTION()
 	void OnPooledObjectDespawn(APooledObject* PoolActor);
 
 private:
+	UPROPERTY()
 	TArray<APooledObject*> ObjectPool;
+
+	UPROPERTY(VisibleAnywhere, Category = "Pooling")
 	float PooledObjectLifeSpan;
 	
 };

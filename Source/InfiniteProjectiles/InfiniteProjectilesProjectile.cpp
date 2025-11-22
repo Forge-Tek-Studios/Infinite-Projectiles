@@ -1,11 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "InfiniteProjectilesProjectile.h"
+#include "InfiniteProjectiles.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
 AInfiniteProjectilesProjectile::AInfiniteProjectilesProjectile() 
 {
+	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile CONSTRUCTED: %s"), *GetName());
+
 	// Use a sphere as a simple collision representation
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
@@ -26,8 +29,10 @@ AInfiniteProjectilesProjectile::AInfiniteProjectilesProjectile()
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
+	ProjectileMovement->bAutoActivate = false;
 
-	// Die after 3 seconds by default
+	// Disable engine-level auto-destruction
+	InitialLifeSpan = 0.0f;
 }
 
 void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -39,4 +44,28 @@ void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 	}
 
 	Deactivate();
+}
+
+void AInfiniteProjectilesProjectile::OnPoolBegin(FVector InitialVelocity)
+{
+	Super::OnPoolBegin(InitialVelocity);
+	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL BEGIN: %s"), *GetName());
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	ProjectileMovement->Activate(true);
+	ProjectileMovement->Velocity = InitialVelocity;
+}
+
+void AInfiniteProjectilesProjectile::OnPoolEnd()
+{
+	Super::OnPoolEnd();
+	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL END: %s"), *GetName());
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	ProjectileMovement->Deactivate();
+	ProjectileMovement->Velocity = FVector::ZeroVector;
+}
+
+void AInfiniteProjectilesProjectile::Destroyed()
+{
+	Super::Destroyed();
+	UE_LOG(LogInfiniteProjectiles, Error, TEXT("Projectile DESTROYED: %s"), *GetName());
 }
