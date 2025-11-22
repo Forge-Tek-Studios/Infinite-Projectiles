@@ -43,7 +43,10 @@ void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 	}
 
-	Deactivate();
+	if (bDestroyOnHit)
+	{
+		Deactivate();
+	}
 }
 
 void AInfiniteProjectilesProjectile::OnPoolBegin(FVector InitialVelocity)
@@ -72,7 +75,7 @@ void AInfiniteProjectilesProjectile::OnPoolEnd()
 	ProjectileMovement->Deactivate();
 
 	// Move the actor far away and out of sight
-	SetActorLocation(FVector(0.f, 0.f, -10000.f));
+	SetActorLocation(FVector(0.f, 0.f, 0.f));
 }
 
 void AInfiniteProjectilesProjectile::Destroyed()

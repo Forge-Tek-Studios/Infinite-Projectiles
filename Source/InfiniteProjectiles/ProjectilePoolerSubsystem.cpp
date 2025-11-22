@@ -53,7 +53,10 @@ APooledObject* UProjectilePoolerSubsystem::SpawnPooledObject(const FTransform& S
 		{
 			PooledObj->SetActorTransform(SpawnTransform);
 			PooledObj->SetLifeSpan(PooledObjectLifeSpan);
-			PooledObj->SetActive(true, InitialVelocity);
+			
+			// Apply the SpawnTransform's rotation to the InitialVelocity
+			FVector RotatedVelocity = SpawnTransform.GetRotation().RotateVector(InitialVelocity);
+			PooledObj->SetActive(true, RotatedVelocity);
 			// The InitialVelocity will be handled in AInfiniteProjectilesProjectile::OnPoolBegin
 			return PooledObj;
 		}
