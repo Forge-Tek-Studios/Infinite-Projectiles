@@ -54,6 +54,7 @@ void AInfiniteProjectilesProjectile::OnPoolBegin(FVector InitialVelocity)
 	Super::OnPoolBegin(InitialVelocity);
 	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL BEGIN: %s"), *GetName());
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	ProjectileMovement->SetUpdatedComponent(CollisionComp); // Ensure updated component is set
 	ProjectileMovement->Activate(true);
 	ProjectileMovement->Velocity = InitialVelocity;
 }
@@ -69,7 +70,6 @@ void AInfiniteProjectilesProjectile::OnPoolEnd()
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	// Stop movement and reset velocity
-	ProjectileMovement->StopMovementImmediately();
 	ProjectileMovement->Velocity = FVector::ZeroVector;
 	// Deactivate the component so it doesn't tick
 	ProjectileMovement->Deactivate();
