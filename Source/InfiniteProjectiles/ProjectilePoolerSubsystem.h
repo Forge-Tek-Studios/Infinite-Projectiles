@@ -22,7 +22,7 @@ public:
 	// End USubsystem
 
 	UFUNCTION(BlueprintCallable, Category = "Pooling", meta = (AutoCreateRefTerm = "InitialVelocity"))
-	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity);
+	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed);
 
 	// UPROPERTY(Config, EditAnywhere, Category = "Pooling")
 	UFUNCTION()

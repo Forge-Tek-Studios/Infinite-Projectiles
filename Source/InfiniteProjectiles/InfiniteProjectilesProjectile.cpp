@@ -25,8 +25,8 @@ AInfiniteProjectilesProjectile::AInfiniteProjectilesProjectile()
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 3000.f;
-	ProjectileMovement->MaxSpeed = 3000.f;
+	ProjectileMovement->InitialSpeed = 0.0f; // Initialized to 0.0f, will be set by OnPoolBegin
+	ProjectileMovement->MaxSpeed = 0.0f;    // Initialized to 0.0f, will be set by OnPoolBegin
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 	ProjectileMovement->bAutoActivate = false;
@@ -49,12 +49,16 @@ void AInfiniteProjectilesProjectile::OnHit(UPrimitiveComponent* HitComp, AActor*
 	}
 }
 
-void AInfiniteProjectilesProjectile::OnPoolBegin(FVector InitialVelocity)
+void AInfiniteProjectilesProjectile::OnPoolBegin(FVector InitialVelocity, float InitialSpeed, float MaxSpeed)
 {
-	Super::OnPoolBegin(InitialVelocity);
+	Super::OnPoolBegin(InitialVelocity, InitialSpeed, MaxSpeed);
 	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL BEGIN: %s"), *GetName());
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	ProjectileMovement->SetUpdatedComponent(CollisionComp); // Ensure updated component is set
+
+	ProjectileMovement->InitialSpeed = InitialSpeed;
+	ProjectileMovement->MaxSpeed = MaxSpeed;
+
 	ProjectileMovement->Activate(true);
 	ProjectileMovement->Velocity = InitialVelocity;
 }
