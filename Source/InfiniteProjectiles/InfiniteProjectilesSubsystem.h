@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "PooledObject.h"
-#include "ProjectilePoolerSubsystem.generated.h"
+#include "InfiniteProjectilesSubsystem.generated.h"
 
 /**
  * 
  */
 UCLASS(Config=Game, defaultconfig)
-class INFINITEPROJECTILES_API UProjectilePoolerSubsystem : public UWorldSubsystem
+class INFINITEPROJECTILES_API UInfiniteProjectilesSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
