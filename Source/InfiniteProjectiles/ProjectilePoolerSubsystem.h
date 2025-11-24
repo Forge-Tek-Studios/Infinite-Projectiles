@@ -21,15 +21,18 @@ public:
 	virtual void Deinitialize() override;
 	// End USubsystem
 
-	UFUNCTION(BlueprintCallable, Category = "Pooling")
-	APooledObject* SpawnPooledObject();
+	UFUNCTION(BlueprintCallable, Category = "Pooling", meta = (AutoCreateRefTerm = "InitialVelocity"))
+	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed);
 
 	// UPROPERTY(Config, EditAnywhere, Category = "Pooling")
 	UFUNCTION()
 	void OnPooledObjectDespawn(APooledObject* PoolActor);
 
 private:
+	UPROPERTY()
 	TArray<APooledObject*> ObjectPool;
+
+	UPROPERTY(VisibleAnywhere, Category = "Pooling")
 	float PooledObjectLifeSpan;
 	
 };

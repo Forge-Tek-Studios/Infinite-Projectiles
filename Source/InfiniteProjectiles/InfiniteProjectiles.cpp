@@ -4,4 +4,5 @@
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, InfiniteProjectiles, "InfiniteProjectiles" );
- 
+
+DEFINE_LOG_CATEGORY(LogInfiniteProjectiles);

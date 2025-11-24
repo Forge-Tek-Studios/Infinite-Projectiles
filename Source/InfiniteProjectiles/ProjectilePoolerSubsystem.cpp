@@ -1,9 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ProjectilePoolerSubsystem.h"
 #include "PooledObject.h"
 #include "ProjectilePoolerSettings.h"
+#include "InfiniteProjectilesProjectile.h" // Required for casting to AInfiniteProjectilesProjectile
 
 void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -18,7 +16,7 @@ void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection
 	PooledObjectLifeSpan = PoolerSettings->PooledObjectLifeSpan;
 	const int32 PoolSize = PoolerSettings->PoolSize;
 	const TSubclassOf<class APooledObject> PooledObjectSubclass = PoolerSettings->PooledObjectClass;
-
+	
 	if (PooledObjectSubclass != nullptr)
 	{
 		UWorld* World = GetWorld();
@@ -29,7 +27,7 @@ void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection
 				APooledObject* PooledObj = World->SpawnActor<APooledObject>(PooledObjectSubclass, FVector::ZeroVector, FRotator::ZeroRotator);
 				if (PooledObj != nullptr)
 				{
-					PooledObj->SetActive(false);
+					PooledObj->SetActive(false, FVector::ZeroVector);
 					PooledObj->SetPoolIndex(i);
 					PooledObj->OnPooledObjectDespawn.AddDynamic(this, &UProjectilePoolerSubsystem::OnPooledObjectDespawn);
 					ObjectPool.Add(PooledObj);
@@ -45,21 +43,26 @@ void UProjectilePoolerSubsystem::Deinitialize()
 	ObjectPool.Empty();
 }
 
-APooledObject* UProjectilePoolerSubsystem::SpawnPooledObject()
+APooledObject* UProjectilePoolerSubsystem::SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed)
 {
 	for (APooledObject* PooledObj : ObjectPool)
 	{
 		if (PooledObj != nullptr && !PooledObj->IsActive())
 		{
-			PooledObj->TeleportTo(FVector::ZeroVector, FRotator::ZeroRotator);
+			PooledObj->SetActorTransform(SpawnTransform);
 			PooledObj->SetLifeSpan(PooledObjectLifeSpan);
-			PooledObj->SetActive(true);
+			
+			// Apply the SpawnTransform's rotation to the InitialVelocity
+			FVector RotatedVelocity = SpawnTransform.GetRotation().RotateVector(InitialVelocity);
+
+			// All pooled objects are now activated via SetActive, which handles visibility and calls OnPoolBegin internally.
+			PooledObj->SetActive(true, RotatedVelocity, InitialSpeed, MaxSpeed);
+
 			return PooledObj;
 		}
 	}
 
 	// If no inactive objects are available, return nullptr.
-	// This is safer than reusing an active object.
 	return nullptr;
 }
 
