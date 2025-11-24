@@ -5,13 +5,13 @@
 #include "CoreMinimal.h"
 #include "Engine/DeveloperSettings.h"
 #include "PooledObject.h"
-#include "ProjectilePoolerSettings.generated.h"
+#include "InfiniteProjectiles_Pool_Settings.generated.h"
 
 /**
  * 
  */
-UCLASS(Config=Game, defaultconfig, meta=(DisplayName="Projectile Pooler Settings"))
-class INFINITEPROJECTILES_API UProjectilePoolerSettings : public UDeveloperSettings
+UCLASS(Config=Game, defaultconfig, meta=(DisplayName="Infinite Projectiles Pool Settings"))
+class INFINITEPROJECTILES_API UInfiniteProjectiles_Pool_Settings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 

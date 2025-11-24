@@ -1,13 +1,13 @@
 #include "InfiniteProjectilesSubsystem.h"
 #include "PooledObject.h"
-#include "ProjectilePoolerSettings.h"
+#include "InfiniteProjectiles_Pool_Settings.h"
 #include "InfiniteProjectilesProjectile.h" // Required for casting to AInfiniteProjectilesProjectile
 
 void UInfiniteProjectilesSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
-	const UProjectilePoolerSettings* PoolerSettings = GetDefault<UProjectilePoolerSettings>();
+	const UInfiniteProjectiles_Pool_Settings* PoolerSettings = GetDefault<UInfiniteProjectiles_Pool_Settings>();
 	if (PoolerSettings == nullptr)
 	{
 		return;
