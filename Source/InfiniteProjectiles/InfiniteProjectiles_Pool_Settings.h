@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DeveloperSettings.h"
 #include "PooledObject.h"
+#include "ProjectilePoolSettings.h"
 #include "InfiniteProjectiles_Pool_Settings.generated.h"
 
 /**
@@ -18,12 +19,6 @@ class INFINITEPROJECTILES_API UInfiniteProjectiles_Pool_Settings : public UDevel
 public:
 
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling")
-	TSubclassOf<class APooledObject> PooledObjectClass;
-
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling", meta = (ClampMin = 1, ClampMax = 200))
-	int PoolSize = 20;
-
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling", meta = (ClampMin = 0.0))
-	float PooledObjectLifeSpan = 3.0f;
+	TArray<FProjectilePoolSettings> ProjectilePools;
 	
 };

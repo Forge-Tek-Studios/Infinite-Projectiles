@@ -50,6 +50,11 @@ void APooledObject::SetPoolIndex(int Index)
 	PoolIndex = Index;
 }
 
+void APooledObject::SetPoolTag(FName Tag)
+{
+	PoolTag = Tag;
+}
+
 void APooledObject::Deactivate()
 {
 	SetActive(false, FVector::ZeroVector, 0.0f, 0.0f);
@@ -64,6 +69,11 @@ bool APooledObject::IsActive()
 int APooledObject::GetPoolIndex()
 {
 	return PoolIndex;
+}
+
+FName APooledObject::GetPoolTag()
+{
+	return PoolTag;
 }
 
 

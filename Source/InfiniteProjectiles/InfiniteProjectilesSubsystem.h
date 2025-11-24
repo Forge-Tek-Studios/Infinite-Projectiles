@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "PooledObject.h"
+#include "ProjectilePoolSettings.h"
 #include "InfiniteProjectilesSubsystem.generated.h"
 
 /**
@@ -22,7 +23,7 @@ public:
 	// End USubsystem
 
 	UFUNCTION(BlueprintCallable, Category = "Pooling", meta = (AutoCreateRefTerm = "InitialVelocity"))
-	APooledObject* SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed);
+	APooledObject* SpawnPooledObject(FName PoolTag, const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed);
 
 	// UPROPERTY(Config, EditAnywhere, Category = "Pooling")
 	UFUNCTION()
@@ -30,9 +31,6 @@ public:
 
 private:
 	UPROPERTY()
-	TArray<APooledObject*> ObjectPool;
-
-	UPROPERTY(VisibleAnywhere, Category = "Pooling")
-	float PooledObjectLifeSpan;
+	TMap<FName, FProjectilePool> ObjectPools;
 	
 };
