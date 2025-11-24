@@ -1,9 +1,9 @@
-#include "ProjectilePoolerSubsystem.h"
+#include "InfiniteProjectilesSubsystem.h"
 #include "PooledObject.h"
 #include "ProjectilePoolerSettings.h"
 #include "InfiniteProjectilesProjectile.h" // Required for casting to AInfiniteProjectilesProjectile
 
-void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+void UInfiniteProjectilesSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
@@ -29,7 +29,7 @@ void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection
 				{
 					PooledObj->SetActive(false, FVector::ZeroVector);
 					PooledObj->SetPoolIndex(i);
-					PooledObj->OnPooledObjectDespawn.AddDynamic(this, &UProjectilePoolerSubsystem::OnPooledObjectDespawn);
+					PooledObj->OnPooledObjectDespawn.AddDynamic(this, &UInfiniteProjectilesSubsystem::OnPooledObjectDespawn);
 					ObjectPool.Add(PooledObj);
 				}
 			}
@@ -37,13 +37,13 @@ void UProjectilePoolerSubsystem::Initialize(FSubsystemCollectionBase& Collection
 	}
 }
 
-void UProjectilePoolerSubsystem::Deinitialize()
+void UInfiniteProjectilesSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
 	ObjectPool.Empty();
 }
 
-APooledObject* UProjectilePoolerSubsystem::SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed)
+APooledObject* UInfiniteProjectilesSubsystem::SpawnPooledObject(const FTransform& SpawnTransform, const FVector& InitialVelocity, float InitialSpeed, float MaxSpeed)
 {
 	for (APooledObject* PooledObj : ObjectPool)
 	{
@@ -66,7 +66,7 @@ APooledObject* UProjectilePoolerSubsystem::SpawnPooledObject(const FTransform& S
 	return nullptr;
 }
 
-void UProjectilePoolerSubsystem::OnPooledObjectDespawn(APooledObject* PoolActor)
+void UInfiniteProjectilesSubsystem::OnPooledObjectDespawn(APooledObject* PoolActor)
 {
 	// The object is already deactivated at this point,
 	// so we don't need to do anything else here.
