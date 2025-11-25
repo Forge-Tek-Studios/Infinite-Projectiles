@@ -68,11 +68,6 @@ void AInfiniteProjectilesProjectile::OnPoolEnd()
 	Super::OnPoolEnd();
 	UE_LOG(LogInfiniteProjectiles, Warning, TEXT("Projectile POOL END: %s"), *GetName());
 
-	// Stop any physics simulation on the collision component
-	CollisionComp->SetSimulatePhysics(false);
-	// Disable all collision
-	CollisionComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
 	// Stop movement and reset velocity
 	ProjectileMovement->Velocity = FVector::ZeroVector;
 	// Deactivate the component so it doesn't tick
