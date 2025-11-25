@@ -11,17 +11,35 @@ APooledObject::APooledObject()
 }
 
 
+#include "Components/PrimitiveComponent.h"
+
+// ... (rest of the file) ...
+
 void APooledObject::OnPoolBegin(FVector InitialVelocity, float InitialSpeed, float MaxSpeed)
 {
 	// Base implementation, can be overridden by subclasses
+	TArray<UPrimitiveComponent*> PrimitiveComponents;
+	GetComponents<UPrimitiveComponent>(PrimitiveComponents);
+	for (UPrimitiveComponent* Component : PrimitiveComponents)
+	{
+		Component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	}
 }
 
 void APooledObject::OnPoolEnd()
 {
 	// Base implementation, can be overridden by subclasses
+	TArray<UPrimitiveComponent*> PrimitiveComponents;
+	GetComponents<UPrimitiveComponent>(PrimitiveComponents);
+	for (UPrimitiveComponent* Component : PrimitiveComponents)
+	{
+		Component->SetSimulatePhysics(false);
+		Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 }
 
 void APooledObject::SetActive(bool isActive, FVector InitialVelocity, float InitialSpeed, float MaxSpeed)
+// ... (rest of the file) ...
 {
 	Active = isActive;
 	SetActorHiddenInGame(!isActive);
@@ -29,9 +47,9 @@ void APooledObject::SetActive(bool isActive, FVector InitialVelocity, float Init
 	if (isActive)
 	{
 		OnPoolBegin(InitialVelocity, InitialSpeed, MaxSpeed);
-		if (LifeSpan > 0.0f)
+		if (PoolLifeSpan > 0.0f)
 		{
-			GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+			GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, PoolLifeSpan, false);
 		}
 	}
 	else
@@ -40,14 +58,19 @@ void APooledObject::SetActive(bool isActive, FVector InitialVelocity, float Init
 	}
 }
 
-void APooledObject::SetLifeSpan(float LifeTime)
+void APooledObject::SetPoolLifeSpan(float LifeTime)
 {
-	LifeSpan = LifeTime;
+	PoolLifeSpan = LifeTime;
 }
 
 void APooledObject::SetPoolIndex(int Index)
 {
 	PoolIndex = Index;
+}
+
+void APooledObject::SetPoolTag(FName Tag)
+{
+	PoolTag = Tag;
 }
 
 void APooledObject::Deactivate()
@@ -64,6 +87,11 @@ bool APooledObject::IsActive()
 int APooledObject::GetPoolIndex()
 {
 	return PoolIndex;
+}
+
+FName APooledObject::GetPoolTag()
+{
+	return PoolTag;
 }
 
 

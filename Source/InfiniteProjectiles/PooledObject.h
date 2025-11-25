@@ -24,12 +24,14 @@ public:
 
 	
 	void SetActive(bool isActive, FVector InitialVelocity = FVector::ZeroVector, float InitialSpeed = 0.0f, float MaxSpeed = 0.0f);
-	void SetLifeSpan(float LifeTime);
+	void SetPoolLifeSpan(float LifeTime);
 	void SetPoolIndex(int Index);
+	void SetPoolTag(FName Tag);
 
 
 	bool IsActive();
 	int GetPoolIndex();
+	FName GetPoolTag();
 
 	virtual void OnPoolBegin(FVector InitialVelocity, float InitialSpeed, float MaxSpeed);
 	virtual void OnPoolEnd();
@@ -39,8 +41,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	bool Active;
-	float LifeSpan = 0.0f;
+	float PoolLifeSpan = 0.0f;
 	int PoolIndex;
+	FName PoolTag;
 
 	FTimerHandle LifeSpanTimer;
 
