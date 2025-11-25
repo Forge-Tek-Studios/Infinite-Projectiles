@@ -28,6 +28,7 @@ void UInfiniteProjectilesSubsystem::Initialize(FSubsystemCollectionBase& Collect
                     PooledObj->SetActive(false, FVector::ZeroVector);
                     PooledObj->SetPoolIndex(i);
                     PooledObj->SetPoolTag(PoolSettings.PoolTag);
+                    PooledObj->SetPoolLifeSpan(PoolSettings.PooledObjectLifeSpan); // Set the lifespan here
                     PooledObj->OnPooledObjectDespawn.AddDynamic(this, &UInfiniteProjectilesSubsystem::OnPooledObjectDespawn);
                     NewPool.Pool.Add(PooledObj);
                 }
@@ -57,18 +58,8 @@ APooledObject* UInfiniteProjectilesSubsystem::SpawnPooledObject(FName PoolTag, c
         {
             PooledObj->SetActorTransform(SpawnTransform);
 
-            const UInfiniteProjectiles_Pool_Settings* PoolerSettings = GetDefault<UInfiniteProjectiles_Pool_Settings>();
-            if(PoolerSettings)
-            {
-                for (const FProjectilePoolSettings& PoolSettings : PoolerSettings->ProjectilePools)
-                {
-                    if (PoolSettings.PoolTag == PoolTag)
-                    {
-                        PooledObj->SetLifeSpan(PoolSettings.PooledObjectLifeSpan);
-                        break;
-                    }
-                }
-            }
+            // The lifespan is already set on the PooledObj during initialization,
+            // so no need to look it up here again.
             
             // Apply the SpawnTransform's rotation to the InitialVelocity
             FVector RotatedVelocity = SpawnTransform.GetRotation().RotateVector(InitialVelocity);

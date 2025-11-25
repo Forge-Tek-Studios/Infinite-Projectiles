@@ -29,9 +29,9 @@ void APooledObject::SetActive(bool isActive, FVector InitialVelocity, float Init
 	if (isActive)
 	{
 		OnPoolBegin(InitialVelocity, InitialSpeed, MaxSpeed);
-		if (LifeSpan > 0.0f)
+		if (PoolLifeSpan > 0.0f)
 		{
-			GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, LifeSpan, false);
+			GetWorldTimerManager().SetTimer(LifeSpanTimer, this, &APooledObject::Deactivate, PoolLifeSpan, false);
 		}
 	}
 	else
@@ -40,9 +40,9 @@ void APooledObject::SetActive(bool isActive, FVector InitialVelocity, float Init
 	}
 }
 
-void APooledObject::SetLifeSpan(float LifeTime)
+void APooledObject::SetPoolLifeSpan(float LifeTime)
 {
-	LifeSpan = LifeTime;
+	PoolLifeSpan = LifeTime;
 }
 
 void APooledObject::SetPoolIndex(int Index)
