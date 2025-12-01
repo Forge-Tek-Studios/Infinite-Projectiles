@@ -18,7 +18,7 @@ struct FProjectilePoolSettings
     UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling")
     TSubclassOf<class APooledObject> PooledObjectClass;
 
-    UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling", meta = (ClampMin = 1, ClampMax = 200))
+    UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling", meta = (ClampMin = 1, ClampMax = 1000))
     int PoolSize = 20;
 
     UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Pooling", meta = (ClampMin = 0.0))
