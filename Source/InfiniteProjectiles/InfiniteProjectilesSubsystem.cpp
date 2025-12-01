@@ -1,8 +1,10 @@
+// Copyright Forge Tek Studios LLC. All Rights Reserved.
+
 #include "InfiniteProjectilesSubsystem.h"
 #include "PooledObject.h"
 #include "InfiniteProjectiles_Pool_Settings.h"
 #include "ProjectilePoolSettings.h"
-#include "InfiniteProjectilesProjectile.h" // Required for casting to AInfiniteProjectilesProjectile
+#include "InfiniteProjectilesProjectile.h" 
 
 void UInfiniteProjectilesSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -58,9 +60,7 @@ APooledObject* UInfiniteProjectilesSubsystem::SpawnPooledObject(FName PoolTag, c
         {
             PooledObj->SetActorTransform(SpawnTransform);
 
-            // The lifespan is already set on the PooledObj during initialization,
-            // so no need to look it up here again.
-            
+           
             // Apply the SpawnTransform's rotation to the InitialVelocity
             FVector RotatedVelocity = SpawnTransform.GetRotation().RotateVector(InitialVelocity);
 
